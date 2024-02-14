@@ -7,15 +7,21 @@ import os
 import csv
 
 marker = 'marker'
-def func(csv):
-    print(csv)
-    
+def get_path():
+    return  os.getenv("TEST_INCOMING_CSV")
+
+def get_book_records(csv_path):
+    with open(csv_path, mode='r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        return [ row for row in csv_reader]
 
 def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)
-    csv = os.getenv("TEST_INCOMING_CSV")
-    func(csv)
+  
+    csv_path = get_path()
+    hardcopy_records = get_book_records(csv_path)
+    print(len(hardcopy_records))
 
 if __name__ == '__main__':
     main()
