@@ -6,6 +6,9 @@ utilises libib barcode scanning and .csv export to represent physical copies of 
 uses blank book pdfs to represent physical copy of books
 
 packages:
+reportlab
+pypdf
+
 Pillow - image modification
 
 Two scripts:
