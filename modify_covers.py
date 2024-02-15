@@ -5,6 +5,7 @@ Created on 2024-02-14
 """
 import os
 from db.find_paths import get_book_folders
+from covers.detect_covers import get_covers
 marker = 'marker'
 """
 check a folder
