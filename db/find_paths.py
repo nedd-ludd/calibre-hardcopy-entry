@@ -5,12 +5,9 @@ Created on 2024-02-14
 """
 import sqlite3
 import os
-# TODO: copy new db
-# TODO: Want book folder not image
-# TODO: how do i combine tags searching in sqlite query
+
 # TODO: context manager for sqlite query
 # TODO: return list of folders
-
 
 def get_book_folders(db_path, tag1, tag2):
     conn = sqlite3.connect(db_path)
@@ -28,15 +25,17 @@ def get_book_folders(db_path, tag1, tag2):
     '''
     c.execute(query, (tag1, tag2))
     results = c.fetchall()
+    paths = []
     if results:
         for title, path in results:
-            print(f"Title: {title}, Path: {path}")
+            paths.append(path)            # print(f"Title: {title}, Path: {path}")
+
     else:
         print(f"No books found with the tags '{tag1}' and '{tag2}'.")
 
     conn.close()
 
-    return [1,2]
+    return paths
 
 def main():
     this_file_name = os.path.basename(__file__)
