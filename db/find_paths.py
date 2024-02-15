@@ -6,40 +6,55 @@ Created on 2024-02-14
 import sqlite3
 import os
 
-# TODO: context manager for sqlite query
-# TODO: return list of folders
+class SQLiteQuery:
+    def __init__(self, db_path):
+        """Initialize with the path to the SQLite database."""
+        self.db_path = db_path
+        self.conn = None
+        self.cursor = None
+
+    def __enter__(self):
+        """Open the database connection and return the cursor."""
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+        return self.cursor
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Commit changes, close the cursor and connection on exit."""
+        if self.conn:
+            if exc_type is None:
+                self.conn.commit()
+            else:
+                self.conn.rollback()
+            self.cursor.close()
+            self.conn.close()
+
+query = '''
+SELECT b.title, b.path
+FROM books b
+JOIN books_tags_link btl ON b.id = btl.book
+JOIN tags t1 ON btl.tag = t1.id
+JOIN books_tags_link btl2 ON b.id = btl2.book
+JOIN tags t2 ON btl2.tag = t2.id
+WHERE t1.name = ? AND t2.name = ?
+GROUP BY b.id
+HAVING COUNT(DISTINCT t1.name) = 1 AND COUNT(DISTINCT t2.name) = 1
+'''
 
 def get_book_folders(db_path, tag1, tag2):
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    query = '''
-    SELECT b.title, b.path
-    FROM books b
-    JOIN books_tags_link btl ON b.id = btl.book
-    JOIN tags t1 ON btl.tag = t1.id
-    JOIN books_tags_link btl2 ON b.id = btl2.book
-    JOIN tags t2 ON btl2.tag = t2.id
-    WHERE t1.name = ? AND t2.name = ?
-    GROUP BY b.id
-    HAVING COUNT(DISTINCT t1.name) = 1 AND COUNT(DISTINCT t2.name) = 1
-    '''
-    c.execute(query, (tag1, tag2))
-    results = c.fetchall()
     paths = []
-    if results:
-        for title, path in results:
-            paths.append(path)            # print(f"Title: {title}, Path: {path}")
-
-    else:
-        print(f"No books found with the tags '{tag1}' and '{tag2}'.")
-
-    conn.close()
-
+    with SQLiteQuery(db_path) as cursor:
+        cursor.execute(query, (tag1, tag2))
+        results = cursor.fetchall()
+        
+    for title, path in results:
+        paths.append(path)
     return paths
 
 def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)
+
     ut1 = os.getenv("USER_1_TAG")
     ut2 = os.getenv("USER_2_TAG")
     format_tag = "Hardcopy"
