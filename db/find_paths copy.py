@@ -11,31 +11,26 @@ import os
 # TODO: context manager for sqlite query
 # TODO: return list of folders
 
+def get_book_folders(db_path, user_tag, format):
 
-def get_book_folders(db_path, tag1, tag2):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     query = '''
-    SELECT b.title, b.path
+    SELECT b.title, b.path || '/cover.jpg' AS cover_path
     FROM books b
     JOIN books_tags_link btl ON b.id = btl.book
-    JOIN tags t1 ON btl.tag = t1.id
-    JOIN books_tags_link btl2 ON b.id = btl2.book
-    JOIN tags t2 ON btl2.tag = t2.id
-    WHERE t1.name = ? AND t2.name = ?
-    GROUP BY b.id
-    HAVING COUNT(DISTINCT t1.name) = 1 AND COUNT(DISTINCT t2.name) = 1
+    JOIN tags t ON btl.tag = t.id
+    WHERE t.name = ?
     '''
-    c.execute(query, (tag1, tag2))
+    c.execute(query, (user_tag,))
     results = c.fetchall()
     if results:
-        for title, path in results:
-            print(f"Title: {title}, Path: {path}")
+        for title, cover_path in results:
+            print(f"Title: {title}, Cover Path: {cover_path}")
     else:
-        print(f"No books found with the tags '{tag1}' and '{tag2}'.")
+        print(f"No books found with the tag '{user_tag}'.")
 
     conn.close()
-
     return [1,2]
 
 def main():

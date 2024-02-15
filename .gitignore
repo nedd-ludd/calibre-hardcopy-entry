@@ -1,6 +1,7 @@
 .env
 
 test/
+tests/
 users/
 
 book_pdfs/
