@@ -8,19 +8,16 @@ import os
 
 class SQLiteQuery:
     def __init__(self, db_path):
-        """Initialize with the path to the SQLite database."""
         self.db_path = db_path
         self.conn = None
         self.cursor = None
 
     def __enter__(self):
-        """Open the database connection and return the cursor."""
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         return self.cursor
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Commit changes, close the cursor and connection on exit."""
+    def __exit__(self, exc_type, exc_val, exc_tb): 
         if self.conn:
             if exc_type is None:
                 self.conn.commit()
@@ -55,15 +52,15 @@ def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)
 
-    ut1 = os.getenv("USER_1_TAG")
-    ut2 = os.getenv("USER_2_TAG")
-    format_tag = "Hardcopy"
-    user_tag = ut1
+    # ut1 = os.getenv("USER_1_TAG")
+    # ut2 = os.getenv("USER_2_TAG")
+    # format_tag = "Hardcopy"
+    # user_tag = ut1
 
-    db_path = os.getenv("TEST_CALIBRE_DB_PATH")
+    # db_path = os.getenv("TEST_CALIBRE_DB_PATH")
 
-    book_folders = get_book_folders(db_path, user_tag, format_tag)
-    print(book_folders)
+    # book_folders = get_book_folders(db_path, user_tag, format_tag)
+    # print(book_folders)
 
 if __name__ == '__main__':
     main()
