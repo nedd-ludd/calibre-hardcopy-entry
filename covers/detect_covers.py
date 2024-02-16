@@ -24,7 +24,6 @@ def get_covers(folder_path):
     return covers
     
 
-
 def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)

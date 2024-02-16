@@ -5,13 +5,16 @@ Created on 2024-02-14
 """
 import os
 marker = 'marker'
-def func():
+
+
+def make_cover(cover):
     pass
 
 def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)
-    func()
+    cover=""
+    make_cover(cover)
 
 if __name__ == '__main__':
     main()

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 reportlab = "*"
 pytest = "*"
+pillow = "*"
 
 [dev-packages]
 pytest = "*"
