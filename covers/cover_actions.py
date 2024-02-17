@@ -14,8 +14,6 @@ def make_new_cover(cover):
     make_cover(cover)
 
 def copy_cover(source_file_path, destination_file_path):
-    # print(source_file_path)
-    # print(destination_file_path)
     shutil.copy(source_file_path, destination_file_path)
 
 def main():
