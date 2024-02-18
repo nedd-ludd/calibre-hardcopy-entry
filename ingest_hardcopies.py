@@ -12,8 +12,7 @@ from pdf.make_pdf import create_pdf
 
 marker = 'marker'
 
-def get_path(collection):
-    return os.getenv(collection)
+
 
 
 def strip_book_data(complete_data):
@@ -82,37 +81,29 @@ class BookPDF:
     def post_init(self):
         if not self.data["unknown"]:
             self.filename = self.make_filename()
-            print(self.filename)
         else:
             self.filename = self.filename + time_ext()
 
    
     def make_pdf(self):
         out_path = os.path.join(self.output_path, self.filename) + ".pdf"
-        print(out_path)
         create_pdf(out_path, owner=self.owner)
-        # print(self.filename, "filename")
-    def add_metadata(self):
-        print("now here")
 
 
 def main():
     this_file_name = os.path.basename(__file__)
     print("File being run is:", this_file_name)
-    #
+  
     owner = os.getenv("OWNER_TAG")  # ! MODIFY OWNER_TAG FOR NAME
-    #
-    csv_path = get_path(collection="TEST_INCOMING_CSV")
+    csv_path =  os.getenv("INCOMING_CSV") 
+    dump_pdfs = os.getenv("DUMP_PDFS")
+
     hardcopies = get_books(csv_path=csv_path)
     for hardcopy in hardcopies:
         data = strip_book_data(hardcopy)
-        book = BookPDF(data, folder_out="pdf/book_pdfs", owner=owner)
+        book = BookPDF(data, folder_out=dump_pdfs, owner=owner)
         book.make_pdf()
         book.add_metadata()
-
-    #
-    # out_path = r"pdf\book_pdfs\test.pdf"
-    # create_pdf(out_path)
 
 if __name__ == '__main__':
     main()
