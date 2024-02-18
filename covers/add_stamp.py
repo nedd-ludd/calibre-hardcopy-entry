@@ -116,7 +116,6 @@ def stamp_cover(image,save_location, ownership):
     image = Image.open(image)
     image_width, image_height = image.size
     img_geo = GeometrySet(image.size)
-    print(img_geo.diag_angle)
 
     # HARDCOPY text
     hardcopy_text = OverlayText("HARDCOPY", length=img_geo.diag_length)

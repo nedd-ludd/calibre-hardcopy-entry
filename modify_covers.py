@@ -39,9 +39,9 @@ class CoverManager:
         3. Copies it across so bothe cover and raw_cover are present
         """
         print("no covers detected, making full set")
-        # make_new_cover(self.cover_name)
-        # stamp_cover(self.cover_name, self.ownership)
-        # copy_cover(self.cover_name, self.raw_name)
+        make_new_cover(self.cover_name)
+        stamp_cover(self.cover_name, self.cover_name, self.ownership)
+        copy_cover(self.cover_name, self.raw_name)
 
     def make_raw(self):
         """
@@ -63,6 +63,7 @@ def main():
 
     for folder in mod_folders:
         book_path = os.getenv("TEST_CALIBRE_LIBRARY_PATH") + "/" + folder
+        print("Checking:", folder)
         cover_set = CoverManager(
             folder=book_path, covers=get_covers(book_path), ownership=user)
         cover_set.manage_covers()
