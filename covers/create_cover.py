@@ -8,6 +8,7 @@ marker = 'marker'
 
 
 def make_cover(cover):
+    # 500 * 326?
     pass
 
 def main():

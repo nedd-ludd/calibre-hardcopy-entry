@@ -49,8 +49,8 @@ class CoverManager:
         2. Stamps cover.jpg to be seen in calibre
         """
         print("copying cover and stamping")
-        # copy_cover(self.cover_name, self.raw_name)
-        stamp_cover(self.cover_name, self.ownership)
+        copy_cover(self.cover_name, self.raw_name)
+        stamp_cover(self.cover_name, self.cover_name, self.ownership)
 
 def main():
     this_file_name = os.path.basename(__file__)

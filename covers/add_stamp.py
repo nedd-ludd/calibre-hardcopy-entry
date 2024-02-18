@@ -126,12 +126,11 @@ def stamp_cover(image,save_location, ownership):
     h.rotate_text(img_geo.diag_angle)
     h.post_rotate_positions(image_height, image_width)
 
-    # # Owner's text
+    # Owner's text
     owners_text = OverlayText(ownership, length=img_geo.diag_length, ratio=0.5)
     owner_text_image = TextImg(text_object=owners_text)
     o = owner_text_image
-    o.rgba = (59, 186, 108)
-
+    o.rgba = (59, 186, 108) #override color
     o.text_on_image()
     o.rotate_text(img_geo.diag_angle)
     o.post_rotate_positions(image_height, image_width)
@@ -141,7 +140,7 @@ def stamp_cover(image,save_location, ownership):
     # Text on image
     image.paste(h.image, h.dims, h.image)
     image.paste(o.image, o.dims, o.image)
-    image.show()  
+    # image.show()  
     image.save(save_location)  # Save the image with rotated text
 
 def main():
