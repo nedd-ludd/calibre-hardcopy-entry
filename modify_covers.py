@@ -67,7 +67,5 @@ def main():
             folder=book_path, covers=get_covers(book_path), ownership=user)
         cover_set.manage_covers()
 
-
-
 if __name__ == '__main__':
     main()
