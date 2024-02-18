@@ -4,12 +4,13 @@
 Created on 2024-02-14
 """
 import os
-marker = 'marker'
-
+from PIL import Image
 
 def make_cover(cover):
-    # 500 * 326?
-    pass
+    width, height = 326, 500
+    image = Image.new("RGB", (width, height), "white")
+    image.save(cover, "JPEG")
+
 
 def main():
     this_file_name = os.path.basename(__file__)
