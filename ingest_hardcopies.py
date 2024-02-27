@@ -45,24 +45,28 @@ class BookPDF:
         self.out_folder = folder_out
         self.owner = owner
         self.metadata_set = {}
-        self.filename = "title?@authors?@isbn0@"
+        self.filename = "title¬@authors¬@isbn0@"
         self.output_path = "pdf/book_pdfs"
         self.post_init()
 
     def make_filename(self):
         name_string = ""
-        title_string = "title" + self.data["title"] if self.data["title"] else "?"
+        title_string = "title" + \
+            self.data["title"] if self.data["title"] else "title¬"
         if self.data["first_name"] and self.data["last_name"]:
             author_string = self.data["first_name"] + " " + self.data["last_name"]
         else:
-            author_string = "?"
+            author_string = "authors¬"
         author = "authors" + \
             self.data["creators"] if self.data["creators"] else author_string
         
         isbn = self.data["upc_isbn10"] if self.data["upc_isbn10"] else "0"
-        isbn = "isbn" +  self.data["ean_isbn13"] if self.data["ean_isbn13"] else isbn
+        isbn = self.data["ean_isbn13"] if self.data["ean_isbn13"] else isbn
+        isbn = "isbn" +  isbn
 
         def cleanse_string(info_string):
+            if "/" in info_string:
+                info_string = info_string.replace("/", " ")
             if ":" in info_string:
                 info_string = info_string.replace(":", "-")
             if "@" in info_string:
@@ -86,7 +90,7 @@ class BookPDF:
 
    
     def make_pdf(self):
-        out_path = os.path.join(self.output_path, self.filename) + ".pdf"
+        out_path = os.path.join(self.out_folder, self.filename) + ".pdf"
         create_pdf(out_path, owner=self.owner)
 
 
@@ -103,7 +107,7 @@ def main():
         data = strip_book_data(hardcopy)
         book = BookPDF(data, folder_out=dump_pdfs, owner=owner)
         book.make_pdf()
-        book.add_metadata()
+
 
 if __name__ == '__main__':
     main()
