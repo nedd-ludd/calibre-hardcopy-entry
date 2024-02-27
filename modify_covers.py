@@ -57,12 +57,12 @@ def main():
     print("File being run is:", this_file_name)
     ut1, ut2, format = os.getenv(
         "USER_1_TAG"), os.getenv("USER_2_TAG"), "Hardcopy"
-    db_path = os.getenv("TEST_CALIBRE_DB_PATH")
-    user = ut1 #! change to user 2 for other stamp
+    db_path = os.getenv("CALIBRE_DB_PATH")
+    user = ut2 #! change to user 2 for other stamp
     mod_folders =  get_book_folders(db_path, user, format)
 
     for folder in mod_folders:
-        book_path = os.getenv("TEST_CALIBRE_LIBRARY_PATH") + "/" + folder
+        book_path = os.getenv("CALIBRE_LIBRARY_PATH") + "/" + folder
         print("Checking:", folder)
         cover_set = CoverManager(
             folder=book_path, covers=get_covers(book_path), ownership=user)
